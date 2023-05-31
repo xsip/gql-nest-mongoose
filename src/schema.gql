@@ -1,0 +1,22 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserGqlModel {
+  username: String!
+  email: String!
+  password: String
+  verificationCode: String
+  verificationEmailSent: Boolean
+  role: String!
+}
+
+type Query {
+  allUsers: [UserGqlModel!]!
+  userById(id: String!): UserGqlModel!
+  login(username: String!, password: String!): String!
+}
+
+type Mutation {
+  register(username: String!, password: String!, email: String!): UserGqlModel!
+}
