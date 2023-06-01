@@ -13,5 +13,8 @@ export class DbServiceBase<T> {
   async findById(id: string): Promise<HydratedDocument<T>> {
     return this.Model.findById(id).exec();
   }
-  findOne = this.Model.findOne;
+  async findOne(find: Partial<Record<keyof T, any>>): Promise<HydratedDocument<T>> {
+    // @ts-ignore
+    return this.Model.findOne(find).exec();
+  }
 }

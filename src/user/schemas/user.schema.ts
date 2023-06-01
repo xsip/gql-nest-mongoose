@@ -31,6 +31,9 @@ export class User {
   @Prop()
   role?: BaseUserRole;
 
+  @Prop({required: false})
+  refreshToken?: string;
+
   @Prop({ required: false })
   createdAt: Date;
 

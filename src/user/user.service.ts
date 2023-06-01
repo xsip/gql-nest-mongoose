@@ -23,6 +23,11 @@ export class UserService extends DbServiceBase<User> {
     });
   }
 
+  async addNewRefreshToken(user: HydratedDocument<User>): Promise<HydratedDocument<User>> {
+    user.refreshToken =uuidV4();
+    await user.save();
+    return user;
+  }
   private hashPassword(password: string): string {
     return bcrypt.hashSync(password, 10);
   }

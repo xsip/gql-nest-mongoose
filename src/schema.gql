@@ -8,12 +8,20 @@ type UserGqlModel {
   password: String
   verificationCode: String
   verificationEmailSent: Boolean
+  refreshToken: String
   role: String!
+}
+
+type RefreshTokenResponseModel {
+  refreshToken: String!
+  token: String!
 }
 
 type Query {
   allUsers: [UserGqlModel!]!
   userById(id: String!): UserGqlModel!
+  getRefreshToken: String!
+  handleRefreshToken(refreshToken: String!): RefreshTokenResponseModel!
   login(username: String!, password: String!): String!
 }
 

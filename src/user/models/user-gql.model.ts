@@ -18,6 +18,9 @@ export class UserGqlModel {
   @Field({ nullable: true })
   verificationEmailSent: boolean;
 
+  @Field({ nullable: true })
+  refreshToken?: string;
+
   @Field()
   role?: BaseUserRole;
 }
