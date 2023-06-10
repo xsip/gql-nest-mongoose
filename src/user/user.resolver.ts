@@ -10,17 +10,20 @@ import {User} from './schemas/user.schema';
 
 @Resolver()
 export class UserResolver {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {
+  }
 
   @UseGuards(JwtAuthGuard)
   @Query(() => [UserGqlModel])
   async allUsers(/*@Args('id', { type: () => Int }) id: number*/) {
     return this.userService.removePassword(await this.userService.findAll());
   }
+
   @Query(() => UserGqlModel)
   async userById(@Args('id') id: string) {
     return this.userService.removePassword(await this.userService.findById(id));
   }
+
   @UseGuards(JwtAuthGuard)
   @Query(() => String)
   async getRefreshToken(@GqlUser() user: User): Promise<string> {
@@ -30,14 +33,14 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query(() => RefreshTokenResponseModel)
-  async handleRefreshToken(@Args('refreshToken', { type: () => String }) refreshToken: number): Promise<RefreshTokenResponseModel> {
+  async handleRefreshToken(@Args('refreshToken', {type: () => String}) refreshToken: number): Promise<RefreshTokenResponseModel> {
     const user = await this.userService.findOne({refreshToken});
-    if(!user) {
+    if (!user) {
       throw new Error('Invalid RefreshToken');
     }
     await this.userService.addNewRefreshToken(user);
     const token = (await this.userService.login(user.toJSON())).access_token;
-    return {token , refreshToken: user.refreshToken };
+    return {token, refreshToken: user.refreshToken};
   }
 
   @Mutation(() => UserGqlModel)
@@ -55,11 +58,12 @@ export class UserResolver {
       }),
     );
   }
+
   @Query(() => String)
   async login(
     @Args('username') username: string,
     @Args('password') password: string,
   ) {
-    return (await this.userService.login(await this.userService.validateUser(username,password))).access_token;
+    return (await this.userService.login(await this.userService.validateUser(username, password))).access_token;
   }
 }
